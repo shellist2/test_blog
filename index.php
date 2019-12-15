@@ -1,13 +1,10 @@
-<?php
-$connection = mysqli_connect('localhost','root', '','test_db');
-if ($connection == false) {
-    echo "Не удалось подключиться к базе Данных";
-    echo mysqli_connect_error();
-    exit();
-}
+<?php 
+require 'setting_db.php';
+
+
 
 $result_categories = mysqli_query($connection,"SELECT * FROM `articles_categories`");
-$result_title_blog  = mysqli_query($connection,"SELECT * FROM `articles` WHERE `id` = 100"); // в таблице нету id = 100
+$result_title_blog  = mysqli_query($connection,"SELECT * FROM `articles`"); // в таблице нету id = 100
 
 // Проверка если вывод равен нулю, то присвоить переменной $result_categories = категорий не найдено 
 if (( mysqli_num_rows($result_categories) == 0) && (mysqli_num_rows($result_title_blog) == 0)) {
@@ -15,21 +12,17 @@ if (( mysqli_num_rows($result_categories) == 0) && (mysqli_num_rows($result_titl
     
 }
 
-while ($record = mysqli_fetch_assoc($result_categories)) {
-   echo '<ul>'.'<li>'.$record['title'].'</li>'.'</ul>';
+while ($cat = mysqli_fetch_assoc($result_categories)) {
+  $articles_count = mysqli_query($connection, "SELECT COUNT(id) as `total_count` FROM `articles` WHERE  `categories_id` = ".$cat['id']); 
+  $articles_count_result = mysqli_fetch_assoc($articles_count);
+  
+  echo '<ul><li>'.$cat['title'].' ('.$articles_count_result['total_count'].')</li></ul>';
+   
  
 }
 echo '<br />'.$result_num_rows; 
 
-
-while ($record2 = mysqli_fetch_assoc($result_title_blog)) {
-    echo '<ul>'.'<li>'.$record2['title'].'</li>'.'</ul>';
-}
-echo '<br />'.$result_num_rows; // Вот тут поидее должен был сработать $result_num_rows =  "Категорий не найдено " ранее в if сделал условие
 ?>
-
-
-
 
 <?php
 mysqli_close($connection);
