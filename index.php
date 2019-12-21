@@ -4,10 +4,10 @@ require 'setting_db.php';
 
 
 $result_categories = mysqli_query($connection,"SELECT * FROM `articles_categories`");
-$result_title_blog  = mysqli_query($connection,"SELECT * FROM `articles`"); // в таблице нету id = 100
+
 
 // Проверка если вывод равен нулю, то присвоить переменной $result_categories = категорий не найдено 
-if (( mysqli_num_rows($result_categories) == 0) && (mysqli_num_rows($result_title_blog) == 0)) {
+if (( mysqli_num_rows($result_categories) == 0)) {
   $result_num_rows =  "Категорий не найдено ";
     
 }

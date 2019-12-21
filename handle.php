@@ -1,13 +1,14 @@
 <?php
 
 require 'setting_db.php';
-?>
 
-<?php
+$data = $_POST;
 
-    if (isset ($_REQUEST['send'])) {
-        $login = $_REQUEST['login'];
-        $password = $_REQUEST['password'];
+
+
+    if (isset ($_POST['send'])) {
+        $login = $_POST['login'];
+        $password = $_POST['password'];
         $add_users = mysqli_query($connection, "INSERT INTO `users` (`login`,`password`) VALUES ('$login', '$password')");
   
  if($add_users){
